@@ -59,6 +59,7 @@ build/
 *.ilk
 *.meta
 *.o
+*.tds
 *.obj
 *.pch
 *.pdb
