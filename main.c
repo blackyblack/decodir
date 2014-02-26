@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include "granit_protocols\granit_protocols.h"
-#pragma hdrstop
+#include "granit_protocols/granit_protocols.h"
 
 //---------------------------------------------------------------------------
 #define EI 11  /* typically 10..13 */
@@ -22,7 +21,6 @@ typedef struct my_file
 } my_file_t;
 
 static int bit_buffer = 0, bit_mask = 128;
-static unsigned long codecount = 0, textcount = 0;
 static unsigned char buffer[N * 2];
 
 static int getbit(my_file_t *in, int n);
@@ -103,13 +101,12 @@ char point_buffer[1000];
 full_point_struct points[50];
 int points_count = 0;
 
-//Длина заголовка Iridium
+//Iridium header
 #define HEADER_LENGTH_IRIDIUM             (3)
 
 static void longlongtoa(CPU_INT64U from, char *where);
 static void granit_point_to_json(full_point_struct *point, char *json_buffer);
 
-#pragma argsused
 int main(int argc, char* argv[])
 {
   char *input_file;
@@ -197,7 +194,7 @@ int main(int argc, char* argv[])
   k = 0;
   for(i = 0; i < points_count; i++)
   {
-    bool point_result = granit_iridium_restore_point(&points[k], output.data + (i * PACKET_LENGTH_IRIDIUM));
+    bool point_result = granit_iridium_restore_point(&points[k], (unsigned char *)output.data + (i * PACKET_LENGTH_IRIDIUM));
 
     if(point_result)
     {
@@ -290,7 +287,6 @@ static void longlongtoa(CPU_INT64U from, char *where)
 //Convert point to JSON
 static void granit_point_to_json(full_point_struct *point, char *json_buffer)
 {
-  char imei[18];
   char id_string[28];
 
   longlongtoa(point->id, id_string);
