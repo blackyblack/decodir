@@ -69,6 +69,8 @@ build/
 *.tli
 *.tlh
 *.tmp
+*.~h
+*.~c
 *.tmp_proj
 *.log
 *.vspscc
